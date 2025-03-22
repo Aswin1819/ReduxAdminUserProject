@@ -1,0 +1,46 @@
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: var(--white);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    text-align: center;
+  }
+  
+  .login-title {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .login-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--gray);
+    border-radius: var(--border-radius);
+  }
+  
+  .login-button {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px;
+  }
+
+
+
+  
+  .login-button:hover {
+    background-color: #357ABD; /* Darker shade of primary color */
+  }
+  
