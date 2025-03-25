@@ -19,7 +19,7 @@
   }
   
   .login-input {
-    width: 100%;
+    width: 90%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid var(--gray);
@@ -27,6 +27,7 @@
   }
   
   .login-button {
+    width: 90%;
     background-color: var(--primary-color);
     color: var(--white);
     padding: 10px;
@@ -36,7 +37,17 @@
     transition: 0.3s;
     margin: 5px;
   }
-
+  .register-button{
+    width: 90%;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 10px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px;
+  }
 
 
   

@@ -4,6 +4,8 @@ import { loginSuccess } from "../../features/authSlice";
 import { loginUser } from "../../services/authService";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -14,6 +16,25 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!credentials.username || credentials.username.length < 5) {
+      toast.error("Username must be at least 5 characters long.");
+      return;
+    }
+    if (!credentials.password || credentials.password.length < 6) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+    const usernameRegex = /^[A-Za-z]+$/;
+    if (!usernameRegex.test(credentials.username)) {
+      toast.error("Username must contain only alphabets.");
+      return;
+    }
+
+    // Validation: Username must not contain spaces
+    if (credentials.username.includes(" ")) {
+      toast.error("Username must not contain spaces.");
+      return;
+    }
     try {
       const token = await loginUser(credentials);
       console.log("Login token:", token);
@@ -22,6 +43,11 @@ const Login = () => {
       console.log("isAdmin", isAdmin);
     } catch (error) {
       console.error("Login failed:", error);
+      if (error.response && error.response.data && error.response.data.detail) {
+        toast.error(error.response.data.detail); // Show the error message from the backend
+      } else {
+        toast.error("Invalid credentials.");
+      }
     }
   };
 
@@ -45,14 +71,14 @@ const Login = () => {
           placeholder="Username" 
           className="login-input" 
           onChange={(e) => setCredentials({ ...credentials, username: e.target.value })} 
-          required 
+ 
         />
         <input 
           type="password" 
           placeholder="Password" 
           className="login-input" 
           onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} 
-          required 
+           
         />
         <button type="submit" className="login-button">Login</button>
         <button type="button" className="register-button" onClick={()=>navigate("/register")}>Register</button>

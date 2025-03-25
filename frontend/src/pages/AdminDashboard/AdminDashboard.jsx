@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { fetchUsersThunk, deleteUserThunk, createUserThunk, updateUserThunk } from "../../features/adminSlice";
 import { logout } from "../../features/authSlice"; // Import the logout action
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -41,11 +43,45 @@ const AdminDashboard = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validation: Username must be at least 5 characters long
+    if (!formData.username || formData.username.length < 5) {
+      toast.error("Username must be at least 5 characters long.");
+      return;
+    }
+
+    // Validation: Username must contain only alphabets
+    const usernameRegex = /^[A-Za-z]+$/;
+    if (!usernameRegex.test(formData.username)) {
+      toast.error("Username must contain only alphabets.");
+      return;
+    }
+
+    // Validation: Username must not contain spaces
+    if (formData.username.includes(" ")) {
+      toast.error("Username must not contain spaces.");
+      return;
+    }
+
+    // Validation: Email must be valid
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    // Validation: Password must be at least 6 characters long (only for new users)
+    if (!editUserId && (!formData.password || formData.password.length < 6)) {
+      toast.error("Password must be at least 6 characters long.");
+      return;
+    }
+
     if (editUserId) {
       dispatch(updateUserThunk({ id: editUserId, formData, token: accessToken, refreshToken }));
     } else {
       dispatch(createUserThunk({ formData, token: accessToken, refreshToken }));
     }
+
     setModalOpen(false);
   };
 
